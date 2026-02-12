@@ -3,7 +3,7 @@
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Kode utama
+    // THIS IS THE CLEAN, WORKING SCRIPT
     const codeContent = `delete window.$;
 let wp = webpackChunkdiscord_app.push([[Symbol()], {}, r => r]);
 webpackChunkdiscord_app.pop();
@@ -268,11 +268,10 @@ function startPlayActivity(quest) {
 
 runSingleQuest();`;
 
-    // Fungsi untuk menyalin kode ke clipboard
+    // FIX: COPY THE RAW CODE VARIABLE, NOT THE HTML ELEMENT
     function copyToClipboard() {
-        const codeElement = document.getElementById('codeBlock');
         const textArea = document.createElement('textarea');
-        textArea.value = codeElement.innerText;
+        textArea.value = codeContent; // This ensures we copy the clean code, not the highlighted HTML
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand('copy');
@@ -312,11 +311,15 @@ runSingleQuest();`;
     
     // Menambahkan syntax highlighting sederhana
     const codeElement = document.getElementById('codeBlock');
+    // Using innerHTML allows the highlight function to style the code for display,
+    // but our copyToClipboard function now bypasses this to ensure accuracy.
     codeElement.innerHTML = highlightCode(codeContent);
 });
 
 // Fungsi untuk syntax highlighting sederhana
 function highlightCode(code) {
+    // This function creates HTML tags for display. 
+    // It is vital NOT to copy the output of this function to the clipboard.
     return code
         .replace(/\/\/.*$/gm, '<span class="comment">$&</span>')
         .replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>')
