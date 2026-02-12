@@ -53,9 +53,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ------------------------------------------------------------
-            // FIXED SCRIPT – Removed 15‑minute timeout from spoofGame()
-            // ------------------------------------------------------------
             const codeContent = `delete window.$;
 let wp = webpackChunkdiscord_app.push([[Symbol()], {}, r => r]);
 webpackChunkdiscord_app.pop();
@@ -167,10 +164,6 @@ function completeVideoQuestRealTime(quest, api, secondsNeeded, secondsDone) {
     });
 }
 
-// ============================================================
-// 🛠️ FIXED: spoofGame – NO 15-MINUTE TIMEOUT
-//    Runs until Discord reports progress >= target
-// ============================================================
 function spoofGame(quest, taskName, resolveCallback) {
     const applicationId = quest.config.application.id;
     const target = quest.config.taskConfig?.tasks?.[taskName]?.target || 
@@ -265,8 +258,6 @@ function spoofGame(quest, taskName, resolveCallback) {
             FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", heartbeatListener);
         }
         
-        // ⏰ TIMEOUT REMOVED – script now runs until Discord confirms completion
-        
     }).catch(error => {
         console.error("❌ Game spoof failed:", error);
         resolveCallback();
@@ -315,9 +306,6 @@ function startPlayActivity(quest) {
 
 runSingleQuest();`;
 
-            // ------------------------------------------------------------
-            // Copy to clipboard (raw text, no HTML)
-            // ------------------------------------------------------------
             function copyToClipboard() {
                 const textArea = document.createElement('textarea');
                 textArea.value = codeContent;
@@ -339,9 +327,6 @@ runSingleQuest();`;
                 document.body.removeChild(textArea);
             }
 
-            // ------------------------------------------------------------
-            // Download .js file
-            // ------------------------------------------------------------
             function downloadScript() {
                 const blob = new Blob([codeContent], { type: 'application/javascript' });
                 const url = URL.createObjectURL(blob);
@@ -352,9 +337,6 @@ runSingleQuest();`;
                 URL.revokeObjectURL(url);
             }
 
-            // ------------------------------------------------------------
-            // Syntax highlighting – matches style.css classes
-            // ------------------------------------------------------------
             function highlightCode(code) {
                 return code
                     .replace(/\/\/.*/g, '<span class="comment">$&</span>')
@@ -368,9 +350,6 @@ runSingleQuest();`;
                     .replace(/(\.\w+)/g, '<span class="property">$&</span>');
             }
 
-            // ------------------------------------------------------------
-            // Initialize page
-            // ------------------------------------------------------------
             document.getElementById('copyButton').addEventListener('click', copyToClipboard);
             document.getElementById('downloadButton').addEventListener('click', downloadScript);
             document.getElementById('codeBlock').innerHTML = highlightCode(codeContent);
