@@ -3,103 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Quest Fix</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e2e;
-            color: #cdd6f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        h1 {
-            color: #89b4fa;
-            margin-bottom: 20px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            background-color: #181825;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            border: 1px solid #313244;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #11111b;
-            border-bottom: 1px solid #313244;
-        }
-
-        button {
-            background-color: #a6e3a1;
-            color: #1e1e2e;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #94e2d5;
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button.copied {
-            background-color: #f9e2af;
-        }
-
-        pre {
-            margin: 0;
-            padding: 20px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #a6adc8;
-        }
-
-        /* Syntax Highlighting Colors */
-        .keyword { color: #cba6f7; font-weight: bold; } /* Ungu */
-        .builtin { color: #f9e2af; } /* Kuning */
-        .string { color: #a6e3a1; } /* Hijau */
-        .number { color: #fab387; } /* Oranye */
-        .property { color: #89b4fa; } /* Biru */
-        .constant { color: #eba0ac; } /* Merah Muda */
-    </style>
+    <title>Discord Quest Automation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1>Discord Quest Script</h1>
-
     <div class="container">
-        <div class="header">
-            <span>index.js (Clean Version)</span>
-            <button id="copyButton">📋 Copy Code</button>
+        <header class="header">
+            <h1>Discord Quest Automation</h1>
+            <div class="subtitle">Automate Discord quests with a single script</div>
+        </header>
+
+        <div class="warning">
+            ⚠️ Use at your own risk. This script modifies Discord's internal state and may violate Discord's Terms of Service.
         </div>
-        <pre><code id="codeBlock">Loading script...</code></pre>
+
+        <div class="instructions">
+            <h2>How to Use</h2>
+            <ol>
+                <li>Open Discord in your browser (or desktop with DevTools open).</li>
+                <li>Press <kbd>F12</kbd> to open Developer Tools.</li>
+                <li>Go to the <strong>Console</strong> tab.</li>
+                <li>Click <strong>"Copy Script"</strong> below and paste it into the console.</li>
+                <li>Press <kbd>Enter</kbd> to run.</li>
+            </ol>
+            <div class="note">
+                <strong>Note:</strong> The script automatically finds active quests and attempts to complete them.
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="copyButton" class="btn btn-primary">📋 Copy Script</button>
+            <button id="downloadButton" class="btn btn-secondary">⬇️ Download .js</button>
+        </div>
+
+        <div class="code-container">
+            <div class="code-header">
+                <h3>discord-quest-automation.js</h3>
+                <span class="code-stats">~150 lines • clean version</span>
+            </div>
+            <div class="code-block">
+                <pre><code id="codeBlock">Loading script...</code></pre>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Made with ❤️ · <a href="#">GitHub</a> · <a href="#">Disclaimer</a></p>
+        </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // INI ADALAH KODE MENTAH YANG AKAN DICOPY
-            // Backticks (`) dan ${} di-escape agar tidak error di HTML ini
+            // ------------------------------------------------------------
+            // The raw script to be copied / downloaded
+            // (escaped backticks and ${} to prevent template evaluation)
+            // ------------------------------------------------------------
             const codeContent = `delete window.$;
 let wp = webpackChunkdiscord_app.push([[Symbol()], {}, r => r]);
 webpackChunkdiscord_app.pop();
@@ -360,8 +317,9 @@ function startPlayActivity(quest) {
 
 runSingleQuest();`;
 
-            // Fungsi Copy: Menggunakan textarea sementara agar yang dicopy murni teks
-            // Tanpa tag HTML (mencegah error 'Unexpected token')
+            // ------------------------------------------------------------
+            // Copy to clipboard (raw text, no HTML)
+            // ------------------------------------------------------------
             function copyToClipboard() {
                 const textArea = document.createElement('textarea');
                 textArea.value = codeContent;
@@ -369,36 +327,63 @@ runSingleQuest();`;
                 textArea.select();
                 try {
                     document.execCommand('copy');
-                    
-                    const copyButton = document.getElementById('copyButton');
-                    const originalText = copyButton.innerHTML;
-                    copyButton.innerHTML = '✅ Copied!';
-                    copyButton.classList.add('copied');
-                    
+                    const copyBtn = document.getElementById('copyButton');
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '✅ Copied!';
+                    copyBtn.classList.add('copied');
                     setTimeout(() => {
-                        copyButton.innerHTML = originalText;
-                        copyButton.classList.remove('copied');
+                        copyBtn.innerHTML = originalHTML;
+                        copyBtn.classList.remove('copied');
                     }, 2000);
                 } catch (err) {
-                    console.error('Failed to copy', err);
+                    console.error('Copy failed', err);
                 }
                 document.body.removeChild(textArea);
             }
 
-            // Fungsi Highlight: Hanya untuk tampilan visual (kosmetik)
+            // ------------------------------------------------------------
+            // Download .js file
+            // ------------------------------------------------------------
+            function downloadScript() {
+                const blob = new Blob([codeContent], { type: 'application/javascript' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'discord-quest-automation.js';
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // ------------------------------------------------------------
+            // Syntax highlighting – maps to new CSS classes
+            // ------------------------------------------------------------
             function highlightCode(code) {
+                // Order matters: strings, comments, keywords...
                 return code
-                    .replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>')
-                    .replace(/\b(const|let|var|function|async|await|return|new|if|else|try|catch|while|for|in|of)\b/g, '<span class="keyword">$&</span>')
-                    .replace(/\b(console|document|window|Date|Math|Object|Array|Promise|Symbol|Set|Map)\b/g, '<span class="builtin">$&</span>')
+                    // comments (single line and multi-line)
+                    .replace(/\/\/.*/g, '<span class="comment">$&</span>')
+                    .replace(/\/\*[\s\S]*?\*\//g, '<span class="comment">$&</span>')
+                    // strings (including backticks)
+                    .replace(/(["'`])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>')
+                    // template literal placeholders (${...})
+                    .replace(/(\$\{.*?\})/g, '<span class="template">$&</span>')
+                    // keywords
+                    .replace(/\b(const|let|var|function|async|await|return|new|if|else|try|catch|while|for|in|of|delete|typeof|instanceof)\b/g, '<span class="keyword">$&</span>')
+                    // built-in objects
+                    .replace(/\b(console|document|window|Date|Math|Object|Array|Promise|Symbol|Set|Map|WeakMap|WeakSet)\b/g, '<span class="builtin">$&</span>')
+                    // boolean/null/undefined
                     .replace(/\b(true|false|null|undefined)\b/g, '<span class="constant">$&</span>')
+                    // numbers
                     .replace(/\b(\d+)\b/g, '<span class="number">$&</span>')
-                    .replace(/(\$\{.*?\})/g, '<span class="property">$&</span>')
+                    // property access (.property)
                     .replace(/(\.\w+)/g, '<span class="property">$&</span>');
             }
 
-            // Setup
+            // ------------------------------------------------------------
+            // Initialize page
+            // ------------------------------------------------------------
             document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+            document.getElementById('downloadButton').addEventListener('click', downloadScript);
             document.getElementById('codeBlock').innerHTML = highlightCode(codeContent);
         });
     </script>
