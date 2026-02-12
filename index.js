@@ -1,9 +1,4 @@
-// ============================================
-// Discord Quest Automation - User Interface
-// ============================================
-
 document.addEventListener('DOMContentLoaded', function() {
-    // THIS IS THE CLEAN, WORKING SCRIPT
     const codeContent = `delete window.$;
 let wp = webpackChunkdiscord_app.push([[Symbol()], {}, r => r]);
 webpackChunkdiscord_app.pop();
@@ -36,7 +31,6 @@ let quests = [...QuestsStore.quests.values()].filter(x =>
     supportedTasks.find(y => Object.keys((x.config.taskConfig ?? x.config.taskConfigV2).tasks).includes(y))
 );
 
-// TAKE ONLY THE FIRST QUEST
 if (quests.length > 0) {
     quests = [quests[0]];
 }
@@ -170,12 +164,10 @@ function spoofGame(quest, taskName, resolveCallback) {
         console.log(\`✅ Spoofed game: \${appData.name}\`);
         console.log(\`📡 Waiting for Discord heartbeats...\`);
         
-        // Just keep the game "focused" quietly in background
         const focusInterval = setInterval(() => {
             fakeGame.lastFocused = Date.now();
         }, 1000);
         
-        // Only show progress when Discord sends real updates
         const heartbeatListener = (data) => {
             const eventQuestId = data.questId || data.quest_id;
             if(eventQuestId && eventQuestId !== quest.id) return;
@@ -212,8 +204,7 @@ function spoofGame(quest, taskName, resolveCallback) {
             FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", heartbeatListener);
         }
         
-        // Set a timeout to prevent infinite running (max 15 minutes)
-        const maxTime = 15 * 60 * 1000; // 15 minutes
+        const maxTime = 15 * 60 * 1000; 
         setTimeout(() => {
             console.log("⏰ Time limit reached. Stopping...");
             cleanup();
@@ -268,10 +259,9 @@ function startPlayActivity(quest) {
 
 runSingleQuest();`;
 
-    // FIX: COPY THE RAW CODE VARIABLE, NOT THE HTML ELEMENT
     function copyToClipboard() {
         const textArea = document.createElement('textarea');
-        textArea.value = codeContent; // This ensures we copy the clean code, not the highlighted HTML
+        textArea.value = codeContent;
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand('copy');
@@ -288,7 +278,6 @@ runSingleQuest();`;
         }, 2000);
     }
 
-    // Fungsi untuk mendownload kode sebagai file
     function downloadCode() {
         const element = document.createElement('a');
         const file = new Blob([codeContent], {type: 'text/javascript'});
@@ -299,27 +288,19 @@ runSingleQuest();`;
         document.body.removeChild(element);
     }
 
-    // Fungsi untuk mencetak halaman
     function printPage() {
         window.print();
     }
 
-    // Tambahkan event listeners
     document.getElementById('copyButton').addEventListener('click', copyToClipboard);
     document.getElementById('downloadButton').addEventListener('click', downloadCode);
     document.getElementById('printButton').addEventListener('click', printPage);
     
-    // Menambahkan syntax highlighting sederhana
     const codeElement = document.getElementById('codeBlock');
-    // Using innerHTML allows the highlight function to style the code for display,
-    // but our copyToClipboard function now bypasses this to ensure accuracy.
     codeElement.innerHTML = highlightCode(codeContent);
 });
 
-// Fungsi untuk syntax highlighting sederhana
 function highlightCode(code) {
-    // This function creates HTML tags for display. 
-    // It is vital NOT to copy the output of this function to the clipboard.
     return code
         .replace(/\/\/.*$/gm, '<span class="comment">$&</span>')
         .replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>')
