@@ -28,6 +28,7 @@
             </ol>
             <div class="note">
                 <strong>Note:</strong> The script automatically finds active quests and attempts to complete them.
+                <br><span style="color:#a6e3a1;">✅ Fixed: Now runs until Discord reports 100% progress – no 15‑minute timeout.</span>
             </div>
         </div>
 
@@ -38,8 +39,8 @@
 
         <div class="code-container">
             <div class="code-header">
-                <h3>quest.js</h3>
-                <span class="code-stats">~150 lines • clean version</span>
+                <h3>discord-quest-automation.js</h3>
+                <span class="code-stats">~150 lines • clean version • no timeout</span>
             </div>
             <div class="code-block">
                 <pre><code id="codeBlock">Loading script...</code></pre>
@@ -54,8 +55,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ------------------------------------------------------------
-            // The raw script to be copied / downloaded
-            // (escaped backticks and ${} to prevent template evaluation)
+            // FIXED SCRIPT – Removed 15‑minute timeout from spoofGame()
             // ------------------------------------------------------------
             const codeContent = `delete window.$;
 let wp = webpackChunkdiscord_app.push([[Symbol()], {}, r => r]);
@@ -168,6 +168,10 @@ function completeVideoQuestRealTime(quest, api, secondsNeeded, secondsDone) {
     });
 }
 
+// ============================================================
+// 🛠️ FIXED: spoofGame – NO 15-MINUTE TIMEOUT
+//    Runs until Discord reports progress >= target
+// ============================================================
 function spoofGame(quest, taskName, resolveCallback) {
     const applicationId = quest.config.application.id;
     const target = quest.config.taskConfig?.tasks?.[taskName]?.target || 
@@ -262,12 +266,7 @@ function spoofGame(quest, taskName, resolveCallback) {
             FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", heartbeatListener);
         }
         
-        const maxTime = 15 * 60 * 1000; 
-        setTimeout(() => {
-            console.log("⏰ Time limit reached. Stopping...");
-            cleanup();
-            resolveCallback();
-        }, maxTime);
+        // ⏰ TIMEOUT REMOVED – script now runs until Discord confirms completion
         
     }).catch(error => {
         console.error("❌ Game spoof failed:", error);
@@ -349,33 +348,24 @@ runSingleQuest();`;
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'quest.js';
+                a.download = 'discord-quest-automation.js';
                 a.click();
                 URL.revokeObjectURL(url);
             }
 
             // ------------------------------------------------------------
-            // Syntax highlighting – maps to new CSS classes
+            // Syntax highlighting – matches style.css classes
             // ------------------------------------------------------------
             function highlightCode(code) {
-                // Order matters: strings, comments, keywords...
                 return code
-                    // comments (single line and multi-line)
                     .replace(/\/\/.*/g, '<span class="comment">$&</span>')
                     .replace(/\/\*[\s\S]*?\*\//g, '<span class="comment">$&</span>')
-                    // strings (including backticks)
                     .replace(/(["'`])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>')
-                    // template literal placeholders (${...})
                     .replace(/(\$\{.*?\})/g, '<span class="template">$&</span>')
-                    // keywords
                     .replace(/\b(const|let|var|function|async|await|return|new|if|else|try|catch|while|for|in|of|delete|typeof|instanceof)\b/g, '<span class="keyword">$&</span>')
-                    // built-in objects
                     .replace(/\b(console|document|window|Date|Math|Object|Array|Promise|Symbol|Set|Map|WeakMap|WeakSet)\b/g, '<span class="builtin">$&</span>')
-                    // boolean/null/undefined
                     .replace(/\b(true|false|null|undefined)\b/g, '<span class="constant">$&</span>')
-                    // numbers
                     .replace(/\b(\d+)\b/g, '<span class="number">$&</span>')
-                    // property access (.property)
                     .replace(/(\.\w+)/g, '<span class="property">$&</span>');
             }
 
