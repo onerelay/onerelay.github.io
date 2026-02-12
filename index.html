@@ -3,66 +3,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Quest Auto Script</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <title>Discord Quest Fix</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e2e;
+            color: #cdd6f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #89b4fa;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background-color: #181825;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid #313244;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #11111b;
+            border-bottom: 1px solid #313244;
+        }
+
+        button {
+            background-color: #a6e3a1;
+            color: #1e1e2e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #94e2d5;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.copied {
+            background-color: #f9e2af;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #a6adc8;
+        }
+
+        /* Syntax Highlighting Colors */
+        .keyword { color: #cba6f7; font-weight: bold; } /* Ungu */
+        .builtin { color: #f9e2af; } /* Kuning */
+        .string { color: #a6e3a1; } /* Hijau */
+        .number { color: #fab387; } /* Oranye */
+        .property { color: #89b4fa; } /* Biru */
+        .constant { color: #eba0ac; } /* Merah Muda */
+    </style>
 </head>
 <body>
+
+    <h1>Discord Quest Script</h1>
+
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-robot"></i> Discord Quest Automation</h1>
-            <p class="subtitle">Automate Discord quests with this JavaScript script</p>
+            <span>index.js (Clean Version)</span>
+            <button id="copyButton">📋 Copy Code</button>
         </div>
-        
-        <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i> 
-            WARNING: Use at your own risk.
-        </div>
-        
-        <div class="instructions">
-            <h2><i class="fas fa-info-circle"></i> How to Use</h2>
-            <ol>
-                <li>Open Discord in your (desktop version)</li>
-                <li>Select the Quest you want to complete</li>
-                <li>Open Developer Tools (F12 or Ctrl+Shift+I)</li>
-                <li>Go to the Console tab</li>
-                <li>Copy the code below and paste it into the console</li>
-                <li>Press Enter to execute the script</li>
-            </ol>
-            <div class="note">
-                <strong>Note:</strong> This script automates Discord quests by simulating game activity, video watching, and play activity. It works by intercepting Discord's Webpack modules.
-            </div>
-        </div>
-        
-        <div class="controls">
-            <button id="copyButton" class="btn btn-primary">
-                <i class="fas fa-copy"></i> Copy Code
-            </button>
-            <button id="downloadButton" class="btn btn-success">
-                <i class="fas fa-download"></i> Download Script
-            </button>
-            <button id="printButton" class="btn btn-secondary">
-                <i class="fas fa-print"></i> Print Code
-            </button>
-        </div>
-        
-        <div class="code-container">
-            <div class="code-header">
-                <h3><i class="fas fa-code"></i> discord-quest-automation.js</h3>
-                <div class="code-stats">857 lines • 23.4 KB</div>
-            </div>
-            <div class="code-block">
-                <pre id="codeBlock"><!-- Code will be inserted by JavaScript --></pre>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>Created by sadri | Use responsibly</p>
-            <p>⚠️ This tool is not affiliated with Discord Inc.</p>
-        </div>
+        <pre><code id="codeBlock">Loading script...</code></pre>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // INI ADALAH KODE MENTAH YANG AKAN DICOPY
+            // Backticks (`) dan ${} di-escape agar tidak error di HTML ini
+            const codeContent = `delete window.$;
+let wp = webpackChunkdiscord_app.push([[Symbol()], {}, r => r]);
+webpackChunkdiscord_app.pop();
+
+let ApplicationStreamingStore = Object.values(wp.c).find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)?.exports?.Z;
+let RunningGameStore, QuestsStore, ChannelStore, GuildChannelStore, FluxDispatcher, api;
+
+if(!ApplicationStreamingStore) {
+    ApplicationStreamingStore = Object.values(wp.c).find(x => x?.exports?.A?.__proto__?.getStreamerActiveStreamMetadata)?.exports.A;
+    RunningGameStore = Object.values(wp.c).find(x => x?.exports?.Ay?.getRunningGames)?.exports.Ay;
+    QuestsStore = Object.values(wp.c).find(x => x?.exports?.A?.__proto__?.getQuest)?.exports.A;
+    ChannelStore = Object.values(wp.c).find(x => x?.exports?.A?.__proto__?.getAllThreadsForParent)?.exports.A;
+    GuildChannelStore = Object.values(wp.c).find(x => x?.exports?.Ay?.getSFWDefaultChannel)?.exports.Ay;
+    FluxDispatcher = Object.values(wp.c).find(x => x?.exports?.h?.__proto__?.flushWaitQueue)?.exports.h;
+    api = Object.values(wp.c).find(x => x?.exports?.Bo?.get)?.exports.Bo;
+} else {
+    RunningGameStore = Object.values(wp.c).find(x => x?.exports?.ZP?.getRunningGames)?.exports.ZP;
+    QuestsStore = Object.values(wp.c).find(x => x?.exports?.Z?.__proto__?.getQuest)?.exports.Z;
+    ChannelStore = Object.values(wp.c).find(x => x?.exports?.Z?.__proto__?.getAllThreadsForParent)?.exports.Z;
+    GuildChannelStore = Object.values(wp.c).find(x => x?.exports?.ZP?.getSFWDefaultChannel)?.exports.ZP;
+    FluxDispatcher = Object.values(wp.c).find(x => x?.exports?.Z?.__proto__?.flushWaitQueue)?.exports.Z;
+    api = Object.values(wp.c).find(x => x?.exports?.tn?.get)?.exports.tn;	
+}
+
+const supportedTasks = ["WATCH_VIDEO", "PLAY_ON_DESKTOP", "STREAM_ON_DESKTOP", "PLAY_ACTIVITY", "WATCH_VIDEO_ON_MOBILE"];
+let quests = [...QuestsStore.quests.values()].filter(x => 
+    x.userStatus?.enrolledAt && 
+    !x.userStatus?.completedAt && 
+    new Date(x.config.expiresAt).getTime() > Date.now() && 
+    supportedTasks.find(y => Object.keys((x.config.taskConfig ?? x.config.taskConfigV2).tasks).includes(y))
+);
+
+if (quests.length > 0) {
+    quests = [quests[0]];
+}
+
+async function runSingleQuest() {
+    if(quests.length === 0) {
+        console.log("📭 No active quests found!");
+        return;
+    }
+
+    const quest = quests[0];
+    console.log(\`🚀 Starting Quest: \${quest.config.messages.questName}\`);
     
-    <script src="index.js"></script>
+    await processSingleQuest(quest);
+    
+    console.log(\`✅ Quest Finished!\`);
+}
+
+function processSingleQuest(quest) {
+    return new Promise(async (resolve, reject) => {
+        const taskConfig = quest.config.taskConfig ?? quest.config.taskConfigV2;
+        const taskName = supportedTasks.find(x => taskConfig.tasks[x] != null);
+        const secondsNeeded = taskConfig.tasks[taskName].target;
+        const secondsDone = quest.userStatus?.progress?.[taskName]?.value ?? 0;
+        
+        console.log(\`📋 Task: \${taskName}\`);
+        console.log(\`📊 Starting at: \${secondsDone}/\${secondsNeeded} seconds\`);
+        
+        if(secondsDone >= secondsNeeded) {
+            console.log("✅ Already completed!");
+            resolve();
+            return;
+        }
+        
+        if(taskName === "WATCH_VIDEO" || taskName === "WATCH_VIDEO_ON_MOBILE") {
+            await completeVideoQuestRealTime(quest, api, secondsNeeded, secondsDone);
+            resolve();
+        } else if(taskName === "PLAY_ON_DESKTOP") {
+            console.log("🎮 Starting game spoofing...");
+            await spoofGame(quest, taskName, resolve);
+        } else if(taskName === "STREAM_ON_DESKTOP") {
+            console.log("📺 Starting stream spoofing...");
+            await spoofGame(quest, taskName, resolve); 
+        } else if(taskName === "PLAY_ACTIVITY") {
+            console.log("🎵 Starting play activity...");
+            await startPlayActivity(quest);
+            resolve();
+        } else {
+            resolve();
+        }
+    });
+}
+
+function completeVideoQuestRealTime(quest, api, secondsNeeded, secondsDone) {
+    return new Promise(async (resolve) => {
+        let currentProgress = secondsDone;
+        while (currentProgress < secondsNeeded) {
+            currentProgress += 1;
+            try {
+                const res = await api.post({
+                    url: \`/quests/\${quest.id}/video-progress\`,
+                    body: { timestamp: currentProgress }
+                });
+                if(res.body.completed_at) { resolve(); return; }
+                
+                if (currentProgress % 5 === 0) {
+                    const percent = ((currentProgress / secondsNeeded) * 100).toFixed(1);
+                    console.log(\`🎬 Video Progress: \${currentProgress}/\${secondsNeeded}s (\${percent}%)\`);
+                }
+                
+                if (currentProgress >= secondsNeeded) { resolve(); return; }
+            } catch (e) {
+                console.warn("⚠️ Update failed, retrying...");
+            }
+            await new Promise(r => setTimeout(r, 1000));
+        }
+    });
+}
+
+function spoofGame(quest, taskName, resolveCallback) {
+    const applicationId = quest.config.application.id;
+    const target = quest.config.taskConfig?.tasks?.[taskName]?.target || 
+                  quest.config.taskConfigV2?.tasks?.[taskName]?.target || 0;
+    
+    console.log(\`🎯 Target: \${target} seconds\`);
+    console.log(\`⚠️ Discord may reset progress if server doesn't detect the actual game running\`);
+    
+    api.get({url: \`/applications/public?application_ids=\${applicationId}\`}).then(res => {
+        const appData = res.body[0];
+        const exeName = appData.executables.find(x => x.os === "win32")?.name.replace(">","") || appData.name + ".exe";
+        const pid = Math.floor(Math.random() * 30000) + 1000;
+        const startTime = Date.now() - (Math.floor(Math.random() * 60000));
+        
+        const fakeGame = {
+            cmdLine: \`"C:\\\\Program Files\\\\\${appData.name}\\\\\${exeName}"\`,
+            exeName,
+            exePath: \`C:\\\\Program Files\\\\\${appData.name}\\\\\${exeName}\`,
+            hidden: false,
+            isLauncher: false,
+            id: applicationId,
+            name: appData.name,
+            pid: pid,
+            pidPath: [pid],
+            processName: exeName.replace(".exe", ""),
+            start: startTime,
+            focused: true, 
+            lastFocused: Date.now(),
+            windowHandle: { value: Math.floor(Math.random() * 100000) + 10000 },
+            windowTitle: appData.name,
+            platform: "win32",
+            type: 0
+        };
+        
+        const realGames = RunningGameStore.getRunningGames();
+        const fakeGames = [fakeGame];
+        const realGetRunningGames = RunningGameStore.getRunningGames;
+        const realGetGameForPID = RunningGameStore.getGameForPID;
+        const realGetCandidateGames = RunningGameStore.getCandidateGames;
+        
+        RunningGameStore.getRunningGames = () => fakeGames;
+        RunningGameStore.getCandidateGames = () => fakeGames;
+        RunningGameStore.getGameForPID = (pid) => fakeGames.find(x => x.pid === pid);
+        
+        FluxDispatcher.dispatch({
+            type: "RUNNING_GAMES_CHANGE", 
+            removed: realGames, 
+            added: [fakeGame], 
+            games: fakeGames
+        });
+        
+        console.log(\`✅ Spoofed game: \${appData.name}\`);
+        console.log(\`📡 Waiting for Discord heartbeats...\`);
+        
+        const focusInterval = setInterval(() => {
+            fakeGame.lastFocused = Date.now();
+        }, 1000);
+        
+        const heartbeatListener = (data) => {
+            const eventQuestId = data.questId || data.quest_id;
+            if(eventQuestId && eventQuestId !== quest.id) return;
+
+            let progress = data.userStatus?.progress?.[taskName]?.value;
+            
+            if (progress !== undefined) {
+                const percent = ((progress / target) * 100).toFixed(1);
+                console.log(\`📈 Progress: \${progress}/\${target} seconds (\${percent}%)\`);
+                
+                if (progress >= target) {
+                    cleanup();
+                    FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", heartbeatListener);
+                    console.log(\`🎉 Quest completed!\`);
+                    resolveCallback();
+                }
+            }
+        };
+
+        FluxDispatcher.subscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", heartbeatListener);
+        
+        function cleanup() {
+            clearInterval(focusInterval);
+            RunningGameStore.getRunningGames = realGetRunningGames;
+            RunningGameStore.getGameForPID = realGetGameForPID;
+            RunningGameStore.getCandidateGames = realGetCandidateGames;
+            
+            FluxDispatcher.dispatch({
+                type: "RUNNING_GAMES_CHANGE", 
+                removed: [fakeGame], 
+                added: [], 
+                games: []
+            });
+            FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", heartbeatListener);
+        }
+        
+        const maxTime = 15 * 60 * 1000; 
+        setTimeout(() => {
+            console.log("⏰ Time limit reached. Stopping...");
+            cleanup();
+            resolveCallback();
+        }, maxTime);
+        
+    }).catch(error => {
+        console.error("❌ Game spoof failed:", error);
+        resolveCallback();
+    });
+}
+
+function startPlayActivity(quest) {
+    return new Promise(async (resolve) => {
+        let channelId = ChannelStore.getSortedPrivateChannels()[0]?.id || "@me";
+        const streamKey = \`call:\${channelId}:1\`;
+        
+        let lastProgress = quest.userStatus?.progress?.PLAY_ACTIVITY?.value || 0;
+        const target = quest.config.taskConfig?.tasks?.PLAY_ACTIVITY?.target || 
+                      quest.config.taskConfigV2?.tasks?.PLAY_ACTIVITY?.target || 0;
+        
+        console.log(\`⏰ Target: \${target} seconds\`);
+        
+        while (lastProgress < target) {
+            try {
+                const res = await api.post({
+                    url: \`/quests/\${quest.id}/heartbeat\`,
+                    body: { stream_key: streamKey, terminal: false }
+                });
+                
+                if (res?.body?.progress?.PLAY_ACTIVITY?.value !== undefined) {
+                    lastProgress = res.body.progress.PLAY_ACTIVITY.value;
+                    const percent = ((lastProgress / target) * 100).toFixed(1);
+                    console.log(\`📈 Activity Progress: \${lastProgress}/\${target} seconds (\${percent}%)\`);
+                }
+                
+                if (lastProgress >= target) {
+                    await api.post({
+                        url: \`/quests/\${quest.id}/heartbeat\`,
+                        body: { stream_key: streamKey, terminal: true }
+                    });
+                    resolve();
+                    return;
+                }
+                await new Promise(r => setTimeout(r, 20 * 1000));
+            } catch (error) {
+                await new Promise(r => setTimeout(r, 5000));
+            }
+        }
+    });
+}
+
+runSingleQuest();`;
+
+            // Fungsi Copy: Menggunakan textarea sementara agar yang dicopy murni teks
+            // Tanpa tag HTML (mencegah error 'Unexpected token')
+            function copyToClipboard() {
+                const textArea = document.createElement('textarea');
+                textArea.value = codeContent;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    
+                    const copyButton = document.getElementById('copyButton');
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = '✅ Copied!';
+                    copyButton.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                        copyButton.classList.remove('copied');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy', err);
+                }
+                document.body.removeChild(textArea);
+            }
+
+            // Fungsi Highlight: Hanya untuk tampilan visual (kosmetik)
+            function highlightCode(code) {
+                return code
+                    .replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, '<span class="string">$&</span>')
+                    .replace(/\b(const|let|var|function|async|await|return|new|if|else|try|catch|while|for|in|of)\b/g, '<span class="keyword">$&</span>')
+                    .replace(/\b(console|document|window|Date|Math|Object|Array|Promise|Symbol|Set|Map)\b/g, '<span class="builtin">$&</span>')
+                    .replace(/\b(true|false|null|undefined)\b/g, '<span class="constant">$&</span>')
+                    .replace(/\b(\d+)\b/g, '<span class="number">$&</span>')
+                    .replace(/(\$\{.*?\})/g, '<span class="property">$&</span>')
+                    .replace(/(\.\w+)/g, '<span class="property">$&</span>');
+            }
+
+            // Setup
+            document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+            document.getElementById('codeBlock').innerHTML = highlightCode(codeContent);
+        });
+    </script>
 </body>
 </html>
