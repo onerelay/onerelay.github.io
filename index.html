@@ -3,20 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Quest Automation</title>
-    <!-- Temporary minimal styling until style.css loads -->
+    <title>Discord Quest Automation – code.js</title>
     <style>
-        body { background: #1e1e2e; color: #cdd6f4; font-family: sans-serif; margin: 20px; }
-        .container { max-width: 1000px; margin: auto; }
-        .header, .footer { text-align: center; }
-        .warning { background: #313244; padding: 10px; border-radius: 8px; margin: 20px 0; }
-        .controls { margin: 20px 0; }
-        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-        .btn-primary { background: #89b4fa; color: #1e1e2e; }
-        .btn-secondary { background: #585b70; color: #cdd6f4; }
-        .code-panel { background: #11111b; border-radius: 8px; margin: 20px 0; overflow: hidden; }
-        .code-panel h3 { background: #181825; margin: 0; padding: 12px 16px; }
-        .code-panel pre { margin: 0; padding: 16px; overflow-x: auto; background: #11111b; color: #cdd6f4; font-family: monospace; }
+        body {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #89b4fa;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #a6adc8;
+            font-size: 1.1rem;
+        }
+        .warning {
+            background: #313244;
+            border-left: 4px solid #f38ba8;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .instructions {
+            background: #181825;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .instructions h2 {
+            color: #89b4fa;
+            margin-top: 0;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+        .note {
+            margin-top: 15px;
+            padding: 10px;
+            background: #313244;
+            border-radius: 6px;
+        }
+        kbd {
+            background: #11111b;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            border: 1px solid #45475a;
+        }
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #89b4fa;
+            color: #1e1e2e;
+        }
+        .btn-primary:hover {
+            background: #74a7f5;
+        }
+        .btn-secondary {
+            background: #585b70;
+            color: #cdd6f4;
+        }
+        .btn-secondary:hover {
+            background: #6c7086;
+        }
+        .btn.copied {
+            background: #a6e3a1;
+            color: #1e1e2e;
+        }
+        .code-panel {
+            background: #11111b;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #313244;
+        }
+        .code-panel h3 {
+            background: #181825;
+            margin: 0;
+            padding: 12px 16px;
+            font-size: 1.1rem;
+            color: #cdd6f4;
+            border-bottom: 1px solid #313244;
+        }
+        .code-panel pre {
+            margin: 0;
+            padding: 16px;
+            overflow-x: auto;
+            background: #11111b;
+            color: #cdd6f4;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #6c7086;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #89b4fa;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        /* syntax highlighting classes */
         .comment { color: #6c7086; }
         .string { color: #a6e3a1; }
         .keyword { color: #89b4fa; }
@@ -24,15 +143,14 @@
         .constant { color: #f38ba8; }
         .number { color: #fab387; }
         .property { color: #94e2d5; }
+        .template { color: #f9e2af; }
     </style>
-    <!-- The real style.css will be injected here after loading -->
-    <style id="dynamic-style"></style>
 </head>
 <body>
     <div class="container">
         <header class="header">
             <h1>Discord Quest Automation</h1>
-            <div class="subtitle">Loads code.js and style.css from the same directory</div>
+            <div class="subtitle">Single script – paste and run</div>
         </header>
 
         <div class="warning">
@@ -42,9 +160,10 @@
         <div class="instructions">
             <h2>How to Use</h2>
             <ol>
-                <li>Place <code>code.js</code> and <code>style.css</code> in the same folder as this HTML file.</li>
-                <li>Open this HTML file in a browser.</li>
-                <li>Click <strong>"Copy Script"</strong> below and paste it into Discord's console (F12).</li>
+                <li>Open Discord in your browser (or desktop with DevTools open).</li>
+                <li>Press <kbd>F12</kbd> to open Developer Tools.</li>
+                <li>Go to the <strong>Console</strong> tab.</li>
+                <li>Click <strong>"Copy Script"</strong> below and paste it into the console.</li>
                 <li>Press <kbd>Enter</kbd> to run.</li>
             </ol>
             <div class="note">
@@ -57,16 +176,10 @@
             <button id="downloadButton" class="btn btn-secondary">⬇️ Download .js</button>
         </div>
 
-        <!-- JavaScript code block -->
+        <!-- JavaScript code block (only code.js) -->
         <div class="code-panel">
             <h3>📄 code.js</h3>
             <pre><code id="jsCode">Loading code.js...</code></pre>
-        </div>
-
-        <!-- CSS code block -->
-        <div class="code-panel">
-            <h3>🎨 style.css</h3>
-            <pre><code id="cssCode">Loading style.css...</code></pre>
         </div>
 
         <footer class="footer">
@@ -76,7 +189,7 @@
 
     <script>
         (async function() {
-            // Helper: syntax highlighting
+            // Simple syntax highlighting for JS
             function highlightJS(code) {
                 return code
                     .replace(/\/\/.*/g, '<span class="comment">$&</span>')
@@ -90,20 +203,8 @@
                     .replace(/(\.\w+)/g, '<span class="property">$&</span>');
             }
 
-            function highlightCSS(code) {
-                return code
-                    .replace(/\/\*[\s\S]*?\*\//g, '<span class="comment">$&</span>')
-                    .replace(/(@\w+)/g, '<span class="keyword">$&</span>')
-                    .replace(/([a-z-]+)\s*(?=:)/g, '<span class="property">$&</span>')
-                    .replace(/:\s*([^;]+)/g, ': <span class="string">$1</span>')
-                    .replace(/(#[\da-f]{3,6})/gi, '<span class="constant">$&</span>')
-                    .replace(/(\d+)(px|em|rem|%|vh|vw|s|ms)/g, '<span class="number">$1</span><span class="unit">$2</span>');
-            }
-
-            // Load both files from the same directory
+            // Load only code.js from the same directory
             let jsCode = '// Error: could not load code.js';
-            let cssCode = '/* Error: could not load style.css */';
-
             try {
                 const jsResp = await fetch('code.js');
                 if (jsResp.ok) jsCode = await jsResp.text();
@@ -112,25 +213,10 @@
                 jsCode = `// Failed to fetch code.js: ${e.message}`;
             }
 
-            try {
-                const cssResp = await fetch('style.css');
-                if (cssResp.ok) cssCode = await cssResp.text();
-                else cssCode = `/* HTTP ${cssResp.status}: ${cssResp.statusText} */`;
-            } catch (e) {
-                cssCode = `/* Failed to fetch style.css: ${e.message} */`;
-            }
-
             // Display
             document.getElementById('jsCode').innerHTML = highlightJS(jsCode);
-            document.getElementById('cssCode').innerHTML = highlightCSS(cssCode);
 
-            // Inject the real CSS into the page (if loaded)
-            if (!cssCode.startsWith('/* Error') && !cssCode.startsWith('// Error')) {
-                const styleTag = document.getElementById('dynamic-style');
-                styleTag.textContent = cssCode;
-            }
-
-            // Copy button: copy only the JavaScript code
+            // Copy button functionality
             function copyToClipboard() {
                 const textArea = document.createElement('textarea');
                 textArea.value = jsCode;  // raw JS
