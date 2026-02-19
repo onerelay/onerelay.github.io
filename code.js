@@ -21,7 +21,6 @@ if (find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)) {
 }
 
 (async () => {
-  // Prevent duplicate runs
   if (window.__questSpoofActive) {
     console.log('Already running');
     return;
