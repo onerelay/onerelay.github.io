@@ -80,7 +80,6 @@ if (find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)) {
       console.log('✅ Activity done');
     } else {
       try {
-        // ---- DYNAMIC APPLICATION FETCH (with retries) ----
         let app = null;
         const maxRetries = 3;
         for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -92,15 +91,13 @@ if (find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)) {
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             let appList = await response.json();
             app = appList[0];
-            if (app) break; // success
+            if (app) break;
           } catch (e) {
             if (attempt === maxRetries) throw e;
-            // exponential backoff: wait 2^attempt seconds
             await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
           }
         }
         if (!app) throw new Error('Application not found after retries');
-        // ----------------------------------------------------
 
         let exe = app.executables?.find(x => x.os === 'win32')?.name?.replace('>','') || app.name + '.exe';
         let fake = {
