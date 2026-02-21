@@ -80,8 +80,28 @@ if (find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)) {
       console.log('✅ Activity done');
     } else {
       try {
-        let app = (await http.get({ url: `/applications/public?application_ids=${quest.config.application.id}` })).body[0];
-        if (!app) throw new Error('Application not found');
+        // ---- DYNAMIC APPLICATION FETCH (with retries) ----
+        let app = null;
+        const maxRetries = 3;
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+          try {
+            console.log(`Fetching application data (attempt ${attempt}/${maxRetries})...`);
+            let response = await fetch(`https://discord.com/api/v9/applications/public?application_ids=${quest.config.application.id}`, {
+              credentials: 'include'
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            let appList = await response.json();
+            app = appList[0];
+            if (app) break; // success
+          } catch (e) {
+            if (attempt === maxRetries) throw e;
+            // exponential backoff: wait 2^attempt seconds
+            await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
+          }
+        }
+        if (!app) throw new Error('Application not found after retries');
+        // ----------------------------------------------------
+
         let exe = app.executables?.find(x => x.os === 'win32')?.name?.replace('>','') || app.name + '.exe';
         let fake = {
           cmdLine: `"C:\\Program Files\\${app.name}\\${exe}"`, exeName: exe,
@@ -120,6 +140,7 @@ if (find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)) {
         D.subscribe('QUESTS_SEND_HEARTBEAT_SUCCESS', listener);
       } catch (err) {
         console.log('❌ Spoof error:', err.message);
+        console.log('💡 Tip: If this is a network error, try disabling Opera GX ad blocker / VPN / GX Control, or use Chrome/Edge.');
         window.__questSpoofActive = false;
       }
     }
