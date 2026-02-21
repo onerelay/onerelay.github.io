@@ -80,24 +80,11 @@ if (find(x => x?.exports?.Z?.__proto__?.getStreamerActiveStreamMetadata)) {
       console.log('✅ Activity done');
     } else {
       try {
-        let app = null;
-        const maxRetries = 3;
-        for (let attempt = 1; attempt <= maxRetries; attempt++) {
-          try {
-            console.log(`Fetching application data (attempt ${attempt}/${maxRetries})...`);
-            let response = await fetch(`https://discord.com/api/v9/applications/public?application_ids=${quest.config.application.id}`, {
-              credentials: 'include'
-            });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            let appList = await response.json();
-            app = appList[0];
-            if (app) break;
-          } catch (e) {
-            if (attempt === maxRetries) throw e;
-            await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
-          }
-        }
-        if (!app) throw new Error('Application not found after retries');
+        console.log('Fetching application data...');
+        let response = await http.get({ url: `/applications/public?application_ids=${quest.config.application.id}` });
+        let appList = response.body;
+        let app = appList[0];
+        if (!app) throw new Error('Application not found');
 
         let exe = app.executables?.find(x => x.os === 'win32')?.name?.replace('>','') || app.name + '.exe';
         let fake = {
